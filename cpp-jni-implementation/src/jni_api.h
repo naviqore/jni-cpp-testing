@@ -9,3 +9,10 @@
 #else
 #define JNI_API __declspec(dllimport)
 #endif
+
+
+#ifdef __cplusplus
+#define  CXX extern "C"
+#else
+#define  CXX
+#endif
