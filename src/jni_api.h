@@ -4,12 +4,19 @@
 
 #pragma once
 
-#ifdef LIBRARY_EXPORTS
-#define JNI_API __declspec(dllexport)
+#ifdef _WIN32
+    #ifdef LIBRARY_EXPORTS
+        #define JNI_API __declspec(dllexport)
+    #else
+        #define JNI_API __declspec(dllimport)
+    #endif
 #else
-#define JNI_API __declspec(dllimport)
+    #ifdef LIBRARY_EXPORTS
+        #define JNI_API __attribute__((visibility("default")))
+    #else
+        #define JNI_API
+    #endif
 #endif
-
 
 #ifdef __cplusplus
 #define  CXX extern "C"
