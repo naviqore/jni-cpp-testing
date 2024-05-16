@@ -2,11 +2,9 @@
 
 on:
   push:
-    paths:
-      - 'cpp-jni-implementation/**'
+    branches: [ "master" ]
   pull_request:
-    paths:
-      - 'cpp-jni-implementation/**'
+    branches: [ "master" ]
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -27,6 +25,11 @@ jobs:
         with:
           java-version: '21'
           distribution: 'adopt'
+
+      - name: Verify Java installation
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -version
 
       - name: Configure CMake
         run: |
