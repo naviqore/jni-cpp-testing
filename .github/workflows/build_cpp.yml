@@ -38,3 +38,19 @@ jobs:
       - name: Build
         run: |
           cmake --build build --config Release
+
+      - name: Upload MSVC artifacts
+        if: matrix.compiler == 'msvc'
+        uses: actions/upload-artifact@v2
+        with:
+          # name: msvc-compiled-dlls-${{ github.run_id }}
+          path: |
+            **/*.dll
+
+      - name: Upload GCC artifacts
+        if: matrix.compiler == 'gcc'
+        uses: actions/upload-artifact@v2
+        with:
+          # name: gcc-compiled-dlls-${{ github.run_id }}
+          path: |
+            **/*.so
