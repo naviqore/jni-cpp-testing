@@ -1,7 +1,6 @@
 #include "library.h"
 
 #include <algorithm>
-#include <format>
 #include <iostream>
 #include <string>
 #include <ranges>
@@ -56,7 +55,8 @@ jstring Java_org_example_Person_getPersonInfo(JNIEnv *env, jobject thisObj, jobj
     jint age = env->GetIntField(personObj, ageFieldID);
 
     const char *nameStr = env->GetStringUTFChars(name, nullptr);
-    const auto result = std::format("Info from C++ => Name: {}, Age: {}", nameStr, age);
+    // const auto result = std::format("Info from C++ => Name: {}, Age: {}", nameStr, age); GNU compiler does not support std::format
+    const auto result = std::string("Info from C++ => Name: ") + nameStr + ", Age: " + std::to_string(age);
     env->ReleaseStringUTFChars(name, nameStr);
 
     return env->NewStringUTF(result.c_str());
