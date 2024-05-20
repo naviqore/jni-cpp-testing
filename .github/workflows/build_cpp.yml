@@ -43,7 +43,7 @@ jobs:
         if: matrix.compiler == 'msvc'
         uses: actions/upload-artifact@v4.3.3
         with:
-          # name: msvc-compiled-dlls-${{ github.run_id }}
+          name: msvc-cpp_lib # -${{ github.run_id }}
           path: |
             **/*.dll
 
@@ -51,6 +51,6 @@ jobs:
         if: matrix.compiler == 'gcc'
         uses: actions/upload-artifact@v4.3.3
         with:
-          # name: gcc-compiled-dlls-${{ github.run_id }}
+          name: gcc-cpp_lib # -${{ github.run_id }}
           path: |
             **/*.so
