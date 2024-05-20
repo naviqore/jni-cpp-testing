@@ -1,6 +1,7 @@
 #include "library.h"
 
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <ranges>
@@ -12,6 +13,10 @@ void hello() {
 void Java_org_example_ExampleObjectsJni_helloFromCpp(JNIEnv *env, jclass thisObj, jstring message) {
     hello();
     std::ignore = thisObj;
+    if (env == nullptr) {
+        std::cerr << "JNIEnv is null" << std::endl;
+        return;
+    }
     const char *nativeString = env->GetStringUTFChars(message, nullptr);
     std::cout << "Hello from C++, Message from Java: " << nativeString << std::endl;
     env->ReleaseStringUTFChars(message, nativeString);
@@ -25,6 +30,14 @@ void Java_org_example_ExampleObjectsJni_test(JNIEnv *env, jclass thisObj) {
 
 jobject Java_org_example_Person_createPerson(JNIEnv *env, jclass thisObj, jstring name, jint age) {
     std::ignore = thisObj;
+    if (env == nullptr) {
+        std::cerr << "JNIEnv is null" << std::endl;
+        return nullptr;
+    }
+    if (name == nullptr) {
+        std::cerr << "Name is null" << std::endl;
+        return nullptr;
+    }
     const char *nativeString = env->GetStringUTFChars(name, nullptr);
     std::cout << "Parameter from Java:" << std::endl;
     std::cout << "nativeString: " << nativeString << std::endl;
@@ -47,6 +60,14 @@ jobject Java_org_example_Person_createPerson(JNIEnv *env, jclass thisObj, jstrin
 jstring Java_org_example_Person_getPersonInfo(JNIEnv *env, jobject thisObj, jobject personObj) {
     std::ignore = thisObj;
 
+    if (env == nullptr) {
+        std::cerr << "JNIEnv is null" << std::endl;
+        return nullptr;
+    }
+    if (personObj == nullptr) {
+        std::cerr << "Person object is null" << std::endl;
+        return nullptr;
+    }
     jclass personClass = env->GetObjectClass(personObj);
     jfieldID nameFieldID = env->GetFieldID(personClass, "name", "Ljava/lang/String;");
     jfieldID ageFieldID = env->GetFieldID(personClass, "age", "I");
@@ -64,7 +85,16 @@ jstring Java_org_example_Person_getPersonInfo(JNIEnv *env, jobject thisObj, jobj
 
 void Java_org_example_ExampleObjectsJni_fillTheMap(JNIEnv *env, jclass thisObj, jobject hashMap) {
     std::ignore = thisObj;
+    if (env == nullptr) {
+        std::cerr << "JNIEnv is null" << std::endl;
+        return;
+    }
+    if (hashMap == nullptr) {
+        std::cerr << "HashMap is null" << std::endl;
+        return;
+    }
     jclass mapClass = env->GetObjectClass(hashMap);
+    // signature: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; = (key, value) => value (return value)
     jmethodID putMethod = env->GetMethodID(mapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
 
     jclass integerObject = env->FindClass("java/lang/Integer");

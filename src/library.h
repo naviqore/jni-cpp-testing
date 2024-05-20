@@ -4,6 +4,7 @@
 #include "jni_api.h"
 #include "jni.h"
 
+// https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#compiling_loading_and_linking_native_methods
 
 /// @brief 
 /// @param env 
