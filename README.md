@@ -1,2 +1,4 @@
 # jni-cpp-testing
-exploring and testing the integration of Java and C++ using the Java Native Interface (JNI)
+
+see [Java example project](https://github.com/naviqore/jni-java-testing)
+
