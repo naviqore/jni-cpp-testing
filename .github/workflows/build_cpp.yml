@@ -10,12 +10,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest, ubuntu-latest ]
+        os: [ windows-latest, ubuntu-latest, macos-latest ]
         include:
           - os: windows-latest
             compiler: msvc
           - os: ubuntu-latest
             compiler: gcc
+          - os: macos-latest
+            compiler: clang
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.4
@@ -43,7 +45,7 @@ jobs:
         if: matrix.compiler == 'msvc'
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: msvc-cpp_lib # -${{ github.run_id }}
+          name: msvc-cpp_lib
           path: |
             **/*.dll
 
@@ -51,6 +53,14 @@ jobs:
         if: matrix.compiler == 'gcc'
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: gcc-cpp_lib # -${{ github.run_id }}
+          name: gcc-cpp_lib
           path: |
             **/*.so
+
+      - name: Upload Clang artifacts
+        if: matrix.compiler == 'clang'
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: clang-cpp_lib
+          path: |
+            **/*.dylib
